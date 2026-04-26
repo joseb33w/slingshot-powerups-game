@@ -56,7 +56,10 @@ function init() {
 
 function bindEvents() {
   document.querySelectorAll('.tab').forEach((button) => {
-    button.addEventListener('click', () => setTab(button.dataset.tab));
+    button.addEventListener('click', () => {
+      if (!state.user) return;
+      setTab(button.dataset.tab);
+    });
   });
 
   els.authForm.addEventListener('submit', async (event) => {
@@ -93,16 +96,19 @@ async function syncAuth() {
 async function handleSession(session) {
   state.user = session?.user || null;
   if (state.user) {
+    document.body.classList.remove('auth-lock');
     els.authPanel.classList.add('hidden');
     els.workspace.classList.remove('hidden');
     els.signOutBtn.hidden = false;
     await loadProfileAndRuns();
     newRound(false);
   } else {
+    document.body.classList.add('auth-lock');
     state.profile = null;
     els.authPanel.classList.remove('hidden');
     els.workspace.classList.add('hidden');
     els.signOutBtn.hidden = true;
+    setTab('game');
     renderProfile();
   }
 }
