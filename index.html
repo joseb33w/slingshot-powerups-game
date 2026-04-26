@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SlingSpark | Slingshot Power-Up Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="paint-orb orb-a"></div>
+  <div class="paint-orb orb-b"></div>
+  <div class="paint-orb orb-c"></div>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#game" aria-label="SlingSpark home">
+        <span class="brand-mark">✹</span>
+        <span><strong>SlingSpark</strong><small>Arcade Atelier</small></span>
+      </a>
+      <nav class="nav-tabs" aria-label="Game sections">
+        <button class="tab active" data-tab="game" type="button">Play</button>
+        <button class="tab" data-tab="store" type="button">Store</button>
+        <button class="tab" data-tab="profile" type="button">Profile</button>
+      </nav>
+      <div class="auth-actions" id="authActions">
+        <button class="btn ghost" id="signOutBtn" type="button" hidden>Sign out</button>
+      </div>
+    </header>
+
+    <section class="hero-card">
+      <div>
+        <p class="eyebrow">Sign up • score points • buy boosts</p>
+        <h1>Pull back the neon sling and paint the sky with points.</h1>
+        <p class="hero-text">Launch spark shots into moving targets, earn points, and spend them in the store on power-ups that change how each run feels.</p>
+      </div>
+      <div class="stat-stack">
+        <div><span>Points</span><strong id="pointsText">0</strong></div>
+        <div><span>Best</span><strong id="bestScoreText">0</strong></div>
+        <div><span>Shots</span><strong id="shotsText">0</strong></div>
+      </div>
+    </section>
+
+    <section class="auth-panel" id="authPanel">
+      <div class="auth-art" aria-hidden="true">
+        <div class="sling-icon">⌒</div>
+        <div class="target-icon">◎</div>
+      </div>
+      <div class="auth-copy">
+        <p class="eyebrow">Player access</p>
+        <h2>Create your SlingSpark account</h2>
+        <p>Sign up or sign in to save points, best score, purchases, and equipped power-ups.</p>
+      </div>
+      <form class="auth-form" id="authForm">
+        <input id="displayNameInput" type="text" maxlength="32" placeholder="Display name for sign up" autocomplete="nickname" />
+        <input id="emailInput" type="email" required placeholder="Email" autocomplete="email" />
+        <input id="passwordInput" type="password" required minlength="6" placeholder="Password" autocomplete="current-password" />
+        <div class="auth-buttons">
+          <button class="btn primary" id="signUpBtn" type="submit" data-mode="signup">Sign up</button>
+          <button class="btn ghost" id="signInBtn" type="button">Sign in</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="workspace hidden" id="workspace">
+      <section class="panel tab-panel active" id="gamePanel" data-panel="game">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Play studio</p>
+            <h2>Slingshot range</h2>
+          </div>
+          <div class="game-controls">
+            <button class="btn small ghost" id="newRoundBtn" type="button">New round</button>
+            <button class="btn small primary" id="saveRunBtn" type="button">Bank score</button>
+          </div>
+        </div>
+        <div class="game-layout">
+          <div class="canvas-wrap">
+            <canvas id="gameCanvas" width="960" height="540" aria-label="Slingshot game canvas"></canvas>
+            <div class="canvas-hint" id="canvasHint">Drag from the sling, pull back, then release.</div>
+          </div>
+          <aside class="side-card">
+            <h3>Current run</h3>
+            <div class="run-grid">
+              <div><span>Score</span><strong id="runScoreText">0</strong></div>
+              <div><span>Shots left</span><strong id="shotsLeftText">10</strong></div>
+              <div><span>Accuracy</span><strong id="accuracyText">0%</strong></div>
+              <div><span>Boost</span><strong id="equippedText">None</strong></div>
+            </div>
+            <div class="power-strip" id="inventoryStrip"></div>
+            <p class="tip">Tip: land in the glowing center for bonus points. Bank your score to convert it into spendable points.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="panel tab-panel" id="storePanel" data-panel="store">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Power-up boutique</p>
+            <h2>Spend points on boosts</h2>
+          </div>
+          <p class="balance-pill">Balance: <strong id="storePointsText">0</strong> pts</p>
+        </div>
+        <div class="store-grid" id="storeGrid"></div>
+      </section>
+
+      <section class="panel tab-panel" id="profilePanel" data-panel="profile">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Player profile</p>
+            <h2>Your saved progress</h2>
+          </div>
+          <button class="btn small ghost" id="refreshProfileBtn" type="button">Refresh</button>
+        </div>
+        <div class="profile-grid">
+          <div class="profile-card">
+            <div class="avatar">⚡</div>
+            <h3 id="profileNameText">Player</h3>
+            <p id="profileEmailText">Signed in</p>
+            <div class="profile-stats">
+              <span><strong id="profilePointsText">0</strong> points</span>
+              <span><strong id="profileBestText">0</strong> best score</span>
+              <span><strong id="profileShotsText">0</strong> total shots</span>
+            </div>
+          </div>
+          <div class="history-card">
+            <h3>Recent runs</h3>
+            <div id="runHistory" class="run-history"></div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="app.js" crossorigin="anonymous"></script>
+</body>
+</html>
