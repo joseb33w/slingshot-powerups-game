@@ -6,7 +6,7 @@
   <title>SlingSpark | Slingshot Power-Up Game</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Shade&family=Space+Grotesk:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="auth-lock">
@@ -18,7 +18,7 @@
     <header class="topbar">
       <a class="brand" href="#game" aria-label="SlingSpark home">
         <span class="brand-mark">✹</span>
-        <span><strong>SlingSpark</strong><small>Arcade Atelier</small></span>
+        <span><strong>SlingSpark</strong><small>POW! Arcade Co.</small></span>
       </a>
       <nav class="nav-tabs" aria-label="Game sections">
         <button class="tab active" data-tab="game" type="button">Play</button>
@@ -32,9 +32,9 @@
 
     <section class="hero-card">
       <div>
-        <p class="eyebrow">Sign up • score points • buy boosts</p>
-        <h1>Pull back the neon sling and paint the sky with points.</h1>
-        <p class="hero-text">Launch spark shots into moving targets, earn points, and spend them in the store on power-ups that change how each run feels.</p>
+        <p class="eyebrow">Pull · Aim · ZAP!</p>
+        <h1>Sling. Smash. Stack the score!</h1>
+        <p class="hero-text">Launch spark-shots at moving targets, earn cold hard points, and blow them in the store on wild boosts. Every run is a comic panel — make it explode.</p>
       </div>
       <div class="stat-stack">
         <div><span>Points</span><strong id="pointsText">0</strong></div>
@@ -49,12 +49,12 @@
         <div class="target-icon">◎</div>
       </div>
       <div class="auth-copy">
-        <p class="eyebrow">Player access</p>
-        <h2>Create your SlingSpark account</h2>
+        <p class="eyebrow">Player Pass</p>
+        <h2>Punch into the arcade.</h2>
         <p>Sign up or sign in to save points, best score, purchases, and equipped power-ups.</p>
       </div>
       <form class="auth-form" id="authForm">
-        <input id="displayNameInput" type="text" maxlength="32" placeholder="Display name for sign up" autocomplete="nickname" />
+        <input id="displayNameInput" type="text" maxlength="32" placeholder="Player handle (sign up)" autocomplete="nickname" />
         <input id="emailInput" type="email" required placeholder="Email" autocomplete="email" />
         <input id="passwordInput" type="password" required minlength="6" placeholder="Password" autocomplete="current-password" />
         <div class="auth-buttons">
@@ -68,8 +68,8 @@
       <section class="panel tab-panel active" id="gamePanel" data-panel="game">
         <div class="panel-heading">
           <div>
-            <p class="eyebrow">Play studio</p>
-            <h2>Slingshot range</h2>
+            <p class="eyebrow">Play Studio</p>
+            <h2>Slingshot Range</h2>
           </div>
           <div class="game-controls">
             <button class="btn small ghost" id="newRoundBtn" type="button">New round</button>
@@ -79,10 +79,10 @@
         <div class="game-layout">
           <div class="canvas-wrap">
             <canvas id="gameCanvas" width="960" height="540" aria-label="Slingshot game canvas"></canvas>
-            <div class="canvas-hint" id="canvasHint">Drag from the sling, pull back, then release.</div>
+            <div class="canvas-hint" id="canvasHint">Drag from the sling, pull back, then let it RIP!</div>
           </div>
           <aside class="side-card">
-            <h3>Current run</h3>
+            <h3>Current Run</h3>
             <div class="run-grid">
               <div><span>Score</span><strong id="runScoreText">0</strong></div>
               <div><span>Shots left</span><strong id="shotsLeftText">10</strong></div>
@@ -90,7 +90,7 @@
               <div><span>Boost</span><strong id="equippedText">None</strong></div>
             </div>
             <div class="power-strip" id="inventoryStrip"></div>
-            <p class="tip">Tip: land in the glowing center for bonus points. Bank your score to convert it into spendable points.</p>
+            <p class="tip">💥 Tip: nail the glowing center for bonus pts. Bank to lock in.</p>
           </aside>
         </div>
       </section>
@@ -98,10 +98,10 @@
       <section class="panel tab-panel" id="storePanel" data-panel="store">
         <div class="panel-heading">
           <div>
-            <p class="eyebrow">Power-up boutique</p>
-            <h2>Spend points on boosts</h2>
+            <p class="eyebrow">Power-Up Bazaar</p>
+            <h2>Trade points for boom.</h2>
           </div>
-          <p class="balance-pill">Balance: <strong id="storePointsText">0</strong> pts</p>
+          <p class="balance-pill">Wallet <strong id="storePointsText">0</strong> pts</p>
         </div>
         <div class="store-grid" id="storeGrid"></div>
       </section>
@@ -109,7 +109,7 @@
       <section class="panel tab-panel" id="profilePanel" data-panel="profile">
         <div class="panel-heading">
           <div>
-            <p class="eyebrow">Player profile</p>
+            <p class="eyebrow">Player Profile</p>
             <h2>Your saved progress</h2>
           </div>
           <button class="btn small ghost" id="refreshProfileBtn" type="button">Refresh</button>
@@ -126,7 +126,7 @@
             </div>
           </div>
           <div class="history-card">
-            <h3>Recent runs</h3>
+            <h3>Recent Runs</h3>
             <div id="runHistory" class="run-history"></div>
           </div>
         </div>
