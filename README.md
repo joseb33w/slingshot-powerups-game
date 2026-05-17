@@ -1,28 +1,29 @@
-# SlingSpark
+# SlingBloom
 
-SlingSpark is a creative browser slingshot game with Supabase authentication, persistent player points, saved run history, and a power-up store.
+SlingBloom is a rebuilt slingshot arcade game focused on fast, reliable release controls and a polished visual experience.
 
-## Features
+## What changed
 
-- Email/password sign up and sign in
-- Canvas slingshot gameplay with drag-to-aim controls
-- Moving targets, score bonuses, accuracy tracking, and banked points
-- Persistent player profile with points, best score, total shots, and inventory
-- Store where users buy power-ups with earned points
-- Equipable boosts:
-  - Power Band: stronger launches
-  - Magnet Orb: larger target rings
-  - Double Spark: doubles banked points for a run
-  - Steady Hand: slower target movement
-- Artistic neon arcade interface with tabbed sections for Play, Store, and Profile
-- Supabase tables for player profiles, game runs, and store purchases
+- Rebuilt the whole app from scratch with plain HTML, CSS, and JavaScript.
+- Removed the sign-in gate so the game starts immediately and avoids backend/auth latency.
+- Reworked the slingshot release system so shots launch on pointer-up, pointer-cancel, lost pointer capture, and window blur.
+- Added trajectory preview, responsive canvas scaling, moving bloom targets, particles, round scoring, accuracy, local saved progress, run history, and a power-up shop.
+- Designed a bright creative garden/arcade interface with readable cards, colorful controls, and mobile-friendly layout.
+
+## Controls
+
+- Touch or mouse: drag from the sling area, pull back, release.
+- New Round: resets the current run.
+- Bank Score: saves the current run points to the local wallet.
+- Shop: spend points on one-use power-ups.
 
 ## Tech
 
-- Static HTML, CSS, and JavaScript
-- Supabase Auth and database
-- Canvas-based gameplay
+- Static HTML
+- Canvas rendering
+- LocalStorage persistence
+- No build step required
 
 ## Preview
 
-Open `index.html` or enable GitHub Pages for the repository.
+Open `index.html` or use the app preview.

@@ -2,139 +2,122 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SlingSpark | Slingshot Power-Up Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#14051f" />
+  <title>SlingBloom — Slingshot Arcade</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Shade&family=Space+Grotesk:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="auth-lock">
-  <div class="paint-orb orb-a"></div>
-  <div class="paint-orb orb-b"></div>
-  <div class="paint-orb orb-c"></div>
+<body>
+  <div class="aurora aurora-one"></div>
+  <div class="aurora aurora-two"></div>
+  <div class="grain" aria-hidden="true"></div>
 
   <main class="app-shell">
     <header class="topbar">
-      <a class="brand" href="#game" aria-label="SlingSpark home">
-        <span class="brand-mark">✹</span>
-        <span><strong>SlingSpark</strong><small>POW! Arcade Co.</small></span>
+      <a class="brand" href="#play" aria-label="SlingBloom home">
+        <span class="brand-orb">✦</span>
+        <span>
+          <strong>SlingBloom</strong>
+          <small>Pull back. Let go. Bloom.</small>
+        </span>
       </a>
-      <nav class="nav-tabs" aria-label="Game sections">
-        <button class="tab active" data-tab="game" type="button">Play</button>
-        <button class="tab" data-tab="store" type="button">Store</button>
-        <button class="tab" data-tab="profile" type="button">Profile</button>
+      <nav class="tabs" aria-label="App sections">
+        <button class="tab active" type="button" data-view="play">Play</button>
+        <button class="tab" type="button" data-view="shop">Shop</button>
+        <button class="tab" type="button" data-view="profile">Profile</button>
       </nav>
-      <div class="auth-actions" id="authActions">
-        <button class="btn ghost" id="signOutBtn" type="button" hidden>Sign out</button>
-      </div>
     </header>
 
-    <section class="hero-card">
-      <div>
-        <p class="eyebrow">Pull · Aim · ZAP!</p>
-        <h1>Sling. Smash. Stack the score!</h1>
-        <p class="hero-text">Launch spark-shots at moving targets, earn cold hard points, and blow them in the store on wild boosts. Every run is a comic panel — make it explode.</p>
+    <section class="hero" id="play">
+      <div class="hero-copy">
+        <p class="kicker">Creative slingshot arcade</p>
+        <h1>Paint the sky with perfect shots.</h1>
+        <p>Drag the glowing pouch, pull back, and release. The slingshot responds instantly on touch, mouse, and trackpad — with a bright trajectory preview so every shot feels intentional.</p>
       </div>
-      <div class="stat-stack">
+      <div class="scoreboard" aria-label="Saved stats">
         <div><span>Points</span><strong id="pointsText">0</strong></div>
-        <div><span>Best</span><strong id="bestScoreText">0</strong></div>
+        <div><span>Best</span><strong id="bestText">0</strong></div>
         <div><span>Shots</span><strong id="shotsText">0</strong></div>
       </div>
     </section>
 
-    <section class="auth-panel" id="authPanel">
-      <div class="auth-art" aria-hidden="true">
-        <div class="sling-icon">⌒</div>
-        <div class="target-icon">◎</div>
+    <section class="view active" data-panel="play">
+      <div class="game-grid">
+        <section class="stage-card">
+          <div class="stage-toolbar">
+            <div>
+              <p class="kicker">Bloom Range</p>
+              <h2>Slingshot Lab</h2>
+            </div>
+            <div class="toolbar-actions">
+              <button class="button ghost" id="newRoundBtn" type="button">New Round</button>
+              <button class="button primary" id="bankBtn" type="button">Bank Score</button>
+            </div>
+          </div>
+          <div class="canvas-frame">
+            <canvas id="gameCanvas" width="1200" height="680" aria-label="Slingshot game area"></canvas>
+            <div class="canvas-note" id="canvasNote">Grab the glowing pouch, pull back, then release.</div>
+          </div>
+        </section>
+
+        <aside class="run-panel">
+          <h3>Current Run</h3>
+          <div class="metric-grid">
+            <div><span>Score</span><strong id="runScoreText">0</strong></div>
+            <div><span>Shots Left</span><strong id="shotsLeftText">8</strong></div>
+            <div><span>Accuracy</span><strong id="accuracyText">0%</strong></div>
+            <div><span>Boost</span><strong id="boostText">None</strong></div>
+          </div>
+          <div class="boost-strip" id="boostStrip"></div>
+          <div class="help-card">
+            <b>Release fix:</b> the game now launches on pointer-up, pointer-cancel, lost capture, and window blur, so the shot never hangs after you let go.
+          </div>
+        </aside>
       </div>
-      <div class="auth-copy">
-        <p class="eyebrow">Player Pass</p>
-        <h2>Punch into the arcade.</h2>
-        <p>Sign up or sign in to save points, best score, purchases, and equipped power-ups.</p>
-      </div>
-      <form class="auth-form" id="authForm">
-        <input id="displayNameInput" type="text" maxlength="32" placeholder="Player handle (sign up)" autocomplete="nickname" />
-        <input id="emailInput" type="email" required placeholder="Email" autocomplete="email" />
-        <input id="passwordInput" type="password" required minlength="6" placeholder="Password" autocomplete="current-password" />
-        <div class="auth-buttons">
-          <button class="btn primary" id="signUpBtn" type="submit" data-mode="signup">Sign up</button>
-          <button class="btn ghost" id="signInBtn" type="button">Sign in</button>
-        </div>
-      </form>
     </section>
 
-    <section class="workspace hidden" id="workspace">
-      <section class="panel tab-panel active" id="gamePanel" data-panel="game">
-        <div class="panel-heading">
-          <div>
-            <p class="eyebrow">Play Studio</p>
-            <h2>Slingshot Range</h2>
-          </div>
-          <div class="game-controls">
-            <button class="btn small ghost" id="newRoundBtn" type="button">New round</button>
-            <button class="btn small primary" id="saveRunBtn" type="button">Bank score</button>
-          </div>
+    <section class="view" data-panel="shop">
+      <div class="section-heading">
+        <div>
+          <p class="kicker">Petal Market</p>
+          <h2>Power-ups that change the shot.</h2>
         </div>
-        <div class="game-layout">
-          <div class="canvas-wrap">
-            <canvas id="gameCanvas" width="960" height="540" aria-label="Slingshot game canvas"></canvas>
-            <div class="canvas-hint" id="canvasHint">Drag from the sling, pull back, then let it RIP!</div>
-          </div>
-          <aside class="side-card">
-            <h3>Current Run</h3>
-            <div class="run-grid">
-              <div><span>Score</span><strong id="runScoreText">0</strong></div>
-              <div><span>Shots left</span><strong id="shotsLeftText">10</strong></div>
-              <div><span>Accuracy</span><strong id="accuracyText">0%</strong></div>
-              <div><span>Boost</span><strong id="equippedText">None</strong></div>
-            </div>
-            <div class="power-strip" id="inventoryStrip"></div>
-            <p class="tip">💥 Tip: nail the glowing center for bonus pts. Bank to lock in.</p>
-          </aside>
-        </div>
-      </section>
+        <p class="wallet">Wallet <strong id="walletText">0</strong> pts</p>
+      </div>
+      <div class="shop-grid" id="shopGrid"></div>
+    </section>
 
-      <section class="panel tab-panel" id="storePanel" data-panel="store">
-        <div class="panel-heading">
-          <div>
-            <p class="eyebrow">Power-Up Bazaar</p>
-            <h2>Trade points for boom.</h2>
-          </div>
-          <p class="balance-pill">Wallet <strong id="storePointsText">0</strong> pts</p>
+    <section class="view" data-panel="profile">
+      <div class="section-heading">
+        <div>
+          <p class="kicker">Player Garden</p>
+          <h2>Your local progress</h2>
         </div>
-        <div class="store-grid" id="storeGrid"></div>
-      </section>
-
-      <section class="panel tab-panel" id="profilePanel" data-panel="profile">
-        <div class="panel-heading">
-          <div>
-            <p class="eyebrow">Player Profile</p>
-            <h2>Your saved progress</h2>
+        <button class="button ghost" id="resetBtn" type="button">Reset Save</button>
+      </div>
+      <div class="profile-grid">
+        <article class="profile-card">
+          <div class="avatar">🌸</div>
+          <h3>Bloom Player</h3>
+          <p>Progress is saved on this device, so the game works instantly without sign-in lag.</p>
+          <div class="profile-stats">
+            <span><b id="profilePointsText">0</b> total points</span>
+            <span><b id="profileBestText">0</b> best score</span>
+            <span><b id="profileShotsText">0</b> lifetime shots</span>
           </div>
-          <button class="btn small ghost" id="refreshProfileBtn" type="button">Refresh</button>
-        </div>
-        <div class="profile-grid">
-          <div class="profile-card">
-            <div class="avatar">⚡</div>
-            <h3 id="profileNameText">Player</h3>
-            <p id="profileEmailText">Signed in</p>
-            <div class="profile-stats">
-              <span><strong id="profilePointsText">0</strong> points</span>
-              <span><strong id="profileBestText">0</strong> best score</span>
-              <span><strong id="profileShotsText">0</strong> total shots</span>
-            </div>
-          </div>
-          <div class="history-card">
-            <h3>Recent Runs</h3>
-            <div id="runHistory" class="run-history"></div>
-          </div>
-        </div>
-      </section>
+        </article>
+        <article class="history-card">
+          <h3>Recent Runs</h3>
+          <div class="history-list" id="historyList"></div>
+        </article>
+      </div>
     </section>
   </main>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js" crossorigin="anonymous"></script>
+  <script src="app.js" defer></script>
 </body>
 </html>
